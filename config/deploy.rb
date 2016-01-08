@@ -2,7 +2,7 @@
 # lock '3.4.0'
 
 set :application, 'mecenus'
-set :repo_url, 'git@github.com:Solfanto/mecenus-website.git'
+set :repo_url, 'git@github.com:Solfanto/mecenus.org.git'
 
 set :secret_keys, [:secret_key_base, :smtp_server, :smtp_username, :smtp_password,
   :db_name, :db_username, :db_password,
