@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-offset-2 col-sm-8">
+      <%= render "steps_banner", step: @step %>
+
+      <%= render "form_errors", model: @project %>
+
+      <%= form_for @project, url: create_project_path, method: 'POST' do |f| %>
+        <%= hidden_field_tag :step, @step %>
+        <%= hidden_field_tag :project_name, params[:project_name] %>
+        <h3>Congratulations! Your project is ready!</h3>
+
+        <p>Publish it now or save it for later!</p>
+
+        <div class="align-center">
+          <%= f.button "Save for later", name: "save_draft", value: "true", class: "btn btn-default" %>
+          <%= f.submit "Publish", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

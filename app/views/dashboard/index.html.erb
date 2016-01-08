@@ -1,0 +1,25 @@
+<div class="container">
+  <h1>Dashboard</h1>
+
+  <h2></h2>
+  <table class="table">
+    <tr>
+      <th>#</th>
+      <th>Month</th>
+      <th>Amount received</th>
+      <th>Amount donated</th>
+      <th>Project</th>
+      <th>Account balance</th>
+    </tr>
+    <% for record in @records %>
+    <tr>
+      <td></td>
+      <td><%= record.date %></td>
+      <td><%= record.amount if record.amount > 0 %></td>
+      <td><%= record.amount if record.amount < 0 %></td>
+      <td><%= link_to record.project.title, project_path(record.project.name) %></td>
+      <td><%= record.balance %></td>
+    </tr>
+    <% end %>
+  </table>
+</div>

@@ -1,0 +1,16 @@
+<div class="container">
+  <%= render "header" %>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-offset-2 col-sm-8 main">
+      <%= render "navbar", share_icons: false %>
+
+      <!-- Banner -->
+
+      <h1>Close Project</h1>
+      <p>Are you sure to close your project? You won't receive the donations anymore.</p>
+      <%= link_to "Close project", project_path(@project.name), method: "DELETE", class: "btn btn-danger" %>
+    </div>
+  </div>
+</div>

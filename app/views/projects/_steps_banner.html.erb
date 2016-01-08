@@ -1,0 +1,23 @@
+<ol class="breadcrumb steps">
+  <li class="<%= step == 1 ? 'active' : 'disabled' %>">
+  <% if step > 1 %>
+    <%= link_to "Your Profile", create_project_path(project_name: params[:project_name], step: 1) %>
+  <% else %>
+    Your Profile
+  <% end %>
+  </li>
+  <li class="<%= step == 2 ? 'active' : 'disabled' %>">
+  <% if step > 2 %>
+    <%= link_to "Your Project", create_project_path(project_name: params[:project_name], step: 2) %>
+  <% else %>
+    Your Project
+  <% end %>
+  </li>
+  <li class="<%= step == 3 ? 'active' : 'disabled' %>">
+  <% if step > 3 %>
+    <%= link_to "Your Payment Settings", create_project_path(project_name: params[:project_name], step: 3) %>
+  <% else %>
+    Your Payment Settings
+  <% end %></li>
+  <li class="<%= step == 4 ? 'active' : 'disabled' %>">Launch page</li>
+</ol>

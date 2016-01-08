@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-offset-2 col-sm-8">
+      <%= render "steps_banner", step: @step %>
+
+      <%= render "form_errors", model: @project %>
+
+      <%= form_for @project, url: create_project_path, method: 'POST' do |f| %>
+        <%= hidden_field_tag :step, @step %>
+        <%= hidden_field_tag :project_name, params[:project_name] if params[:project_name] %>
+        <div class="form-group">
+          <%= f.label :title, "Project title:" %>
+          <%= f.text_field :title, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :name, "Name:" %>
+          <div class="input-group">
+            <div class="input-group-addon">https://www.mecenus.org/</div>
+            <%= f.text_field :name, class: "form-control" %>
+          </div>
+        </div>
+        <div class="form-group">
+          <%= f.label :summary, "Subtitle:" %>
+          <%= f.text_field :summary, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :description, "Description:" %>
+          <%= f.text_area :description, rows: 10, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :license, "License:" %>
+          <div class="row">
+            <div class="col-sm-4">
+              <%= f.text_field :license, placeholder: "MIT/GPL/BSD...", class: "form-control" %>
+            </div>
+            <div class="col-sm-8">
+              <%= f.text_field :license_url, placeholder: "https://github.com/{your organization}/{your project}/blob/master/LICENSE", class: "form-control" %>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <%= f.label :url, "Website Url:" %>
+          <%= f.text_field :url, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :repo_url, "Repository Url:" %>
+          <%= f.text_field :repo_url, placeholder: "https://github.com/{your organization}/{your project}", class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :readme_url, "Readme Url:" %>
+          <%= f.text_field :readme_url, placeholder: "https://github.com/{your organization}/{your project}/blob/master/README", class: "form-control" %>
+        </div>
+
+        <%= f.submit "Next", class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+</div>

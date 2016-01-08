@@ -1,0 +1,42 @@
+<div class="project">
+  <h1>
+    <%= link_to project.title, project_path(project.name) %> <span class="version"><%= project.latest_version %></span>
+    <% if project.closed? %>
+      <span class="closed">(Closed)</span>
+    <% elsif !project.published? %>
+      <span class="closed">(Not published)</span>
+    <% end %>
+  </h1>
+  <h2><%= project.summary %></h2>
+  
+  <div class="maintainer">
+    <span class="name">by <%= project.author.display_name %></span>
+    <% unless project.author.twitter_username.blank? %>
+    <span class="twitter"><%= link_to raw("<span class=\"fa fa-twitter btn btn-social-icon btn-twitter btn-mini\"></span> ") + "@#{project.author.twitter_username}", "https://www.twitter.com/#{project.author.twitter_username}", target: "_blank" %></span>
+    <% end %>
+    <% unless project.author.facebook_username.blank? %>
+    <span class="facebook"><%= link_to raw("<span class=\"fa fa-facebook btn btn-social-icon btn-facebook btn-mini\"></span> ") + "/#{project.author.facebook_username}", "https://www.facebook.com/#{project.author.facebook_username}", target: "_blank" %></span>
+    <% end %>
+
+  </div>
+  <div class="info">
+    <span class="source">Source: <%= link_to "Github", project.repo_url %> <% if project.language %>(<%= project.language %>)<% end %></span>
+    <% if project.readme_url %>
+    <span class="readme">Doc: <%= link_to "Readme", project.readme_url %></span>
+    <% end %>
+    <% if project.changelog_url %>
+    <span class="changelog">Change log: <%= link_to project.latest_update_at, project.changelog_url %></span>
+    <% elsif project.latest_update_at %>
+    <span class="last_update_at">Last update: <%= project.latest_update_atl %></span>
+    <% end %>
+    <span class="license">License: <%= link_to project.license, project.license_url, target: "_blank" %></span>
+  </div>
+  
+  <div class="donations">
+    <div class="count"><%= project.donations_count %></div>
+    <div class="unit">Supporters</div>
+    <div class="count">$<%= project.donation_amount_per_month %></div>
+    <div class="unit">each month</div>
+  </div>
+  
+</div>

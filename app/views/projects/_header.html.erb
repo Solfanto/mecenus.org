@@ -1,0 +1,11 @@
+<div class="project-title">
+  <h1>
+    <%= @project.title %>
+    <% if @project.closed? %>
+      <span class="closed">(Closed)</span>
+    <% elsif !@project.published? %>
+      <span class="closed">(Not published)</span>
+    <% end %>
+  </h1>
+  <h2><%= auto_link @project.summary, html: { target: '_blank' } %></h2>
+</div>

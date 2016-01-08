@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="presentation">
+    <!-- TODO: video demo/explanation -->
+    <h1>Give monthly micro-donations to Open Source projects</h1>
+
+    <h2>Support the Open Source community and help building a new sustainable funding system for free softwares.</h2>
+
+    <p class="learn-more"><%= link_to "Learn more", help_path %></p>
+
+  </div>
+
+  <div class="details">
+    <ul>
+      <li><b>mecenus.org</b> is a platform to get recurrent donations for your Open Source projects</li>
+      <li><b>mecenus.org</b> is <strong>free</strong> and takes <strong>no fee</strong> from the donations <i>(credit card and bank transfer fees may still be applied)</i></li>
+    </ul>
+    <% if current_user %>
+    <div class="subscribe-now">
+      <%= link_to "Create your Page now", create_project_path, class: "btn btn-primary" %>
+    </div>
+    <% else %>
+    <div class="subscribe-now">
+      <%= link_to "Join now", new_user_registration_path, class: "btn btn-primary" %>
+    </div>
+    <% end %>
+  </div>
+
+  <!-- newest projects -->
+
+  <div class="latest_projects">
+    <h1>Latest projects</h1>
+    <% for project in @projects %>
+    <%= render "project_row", project: project %>
+
+    <% end %>
+  </div>
+</div>

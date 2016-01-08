@@ -1,0 +1,377 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ */
+
+$orange: #d35400;
+$dark-orange: #c73d2e;
+$brand-primary: $orange;
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "bootstrap-social";
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+@mixin frame() {
+  margin: 0 auto 20px;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+     -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+          box-shadow: 0 1px 2px rgba(0,0,0,.05);
+}
+
+// general
+
+h1 {
+  font-weight: 400;
+}
+
+a {
+  color: $orange;
+  &:hover {
+    color: $dark-orange;
+  }
+  font-weight: 500;
+}
+
+.clear {
+  clear: both;
+}
+
+// generic
+
+.align-right {
+  text-align: right;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.btn-mini {
+  width: 1.2em;
+  height: 1.2em;
+  padding: 1px;
+  &.btn-social-icon {
+    text-align: center;
+  }
+}
+
+.bs-example {
+  position: relative;
+  padding: 45px 15px 15px;
+  margin: 0 -15px 15px;
+  border-color: #e5e5e5 #eee #eee;
+  border-style: solid;
+  border-width: 1px 0;
+  box-shadow: inset 0 3px 6px rgba(0,0,0,.05);
+}
+
+.bs-callout {
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+}
+
+.bs-callout-info {
+  border-left-color: #1b809e;
+}
+
+// rails
+
+.error-explanation {
+  color: #f00;
+  ul {
+    list-style: none;
+    margin: 0 0 18px 0;
+  }
+}
+
+.field-with-errors {
+  @extend .control-group !optional;
+  @extend .error !optional;
+}
+
+// page
+
+.navbar {
+  .navbar-brand {
+    color: $orange;
+    font-weight: 500;
+    &:hover {
+      color: $dark-orange;
+    }
+    .stage {
+      font-size: 0.6em;
+      color: #777777;
+    }
+  }
+  .btn-group {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+}
+
+.footer {
+  padding-top: 30px;
+  padding-bottom: 10px;
+  h1 {
+    margin-top: 0;
+  }
+  h3 {
+    margin-top: 10px;
+  }
+}
+
+.presentation {
+  text-align: center;
+  h1 {
+    font-weight: 200;
+  }
+
+  h2 {
+    font-size: 1.8em;
+    font-weight: 400;
+  }
+
+  .learn-more {
+    font-style: italic;
+  }
+
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
+
+.details {
+  margin-bottom: 80px;
+  strong {
+    color: $orange;
+  }
+  .subscribe-now {
+    text-align: center;
+  }
+}
+
+// Project index
+
+.project-row, .project {
+  h1 {
+    font-size: 1.8em;
+  }
+  h2 {
+    font-size: 1.2em;
+    font-weight: 400;
+    margin: 15px 0 15px 0;
+  }
+  h3 {
+    font-size: 1.1em;
+    font-weight: 400;
+    margin: 15px 0 15px 0;
+  }
+  h4 {
+    font-size: 1.0em;
+    font-weight: 400;
+    margin: 15px 0 15px 0;
+  }
+  a {
+    font-weight: 800;
+    color: $orange;
+  }
+  .maintainer {
+    .name {
+      font-style: italic;
+    }
+    .twitter {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+    margin-bottom: 5px;
+  }
+  .info {
+    margin-bottom: 10px;
+  }
+  .donations {
+    border-left: 2px solid #777777;
+    padding-left: 8px;
+  }
+  .count {
+    font-weight: 900;
+    font-size: 1.4em;
+    line-height: 1em;
+  }
+  .unit {
+    font-weight: 200;
+    color: #777777;
+    margin-bottom: 10px;
+  }
+  margin-bottom: 40px;
+
+  .closed {
+    font-style: italic;
+    font-size: 0.8em;
+  }
+}
+
+// Project show
+
+.project-title {
+  h1 {
+    text-align: center;
+    font-weight: 600;
+    font-size: 3.0em;
+    .closed {
+      font-size: 0.55em;
+      font-weight: normal;
+    }
+  }
+  h2 {
+    text-align: center;
+    font-weight: 500;
+    font-size: 2.0em;
+  }
+  margin-bottom: 40px;
+}
+
+.project-donation {
+  .form {
+    font-size: 2em;
+    text-align: center;
+  }
+  p {
+    font-weight: 500;
+    font-size: 1.2em;
+  }
+  .donation-field {
+    width: 90px;
+    font-size: 28px;
+    height: 44px;
+    display: inline;
+  }
+  .count {
+    font-weight: 500;
+    font-size: 2.4em;
+    line-height: 1.0em;
+  }
+  .unit {
+    font-weight: 200;
+    color: #777777;
+    margin-bottom: 10px;
+  }
+}
+
+.donation-form {
+  .form {
+    font-size: 1.2em;
+  }
+  p {
+    font-weight: 500;
+    font-size: 1.2em;
+  }
+  .donation-field {
+    width: 90px;
+    font-size: 18px;
+    height: 34px;
+    display: inline;
+  }
+}
+
+.project-info, .project-settings {
+  h1 {
+    margin-top: 0;
+    font-size: 2.0em;
+    font-weight: 500;
+  }
+  .panel-body > p, .panel-body > div {
+    margin-bottom: 20px;
+  }
+}
+
+.project-show, .project-row {
+  .info {
+    .source, .readme, .changelog, .last_update_at, .license {
+      margin-right: 20px;
+      font-weight: bold;
+    }
+  }
+}
+
+// .project-navbar {
+//   .navbar-item-left {
+//     width: 14%;
+//     padding: 0;
+//   }
+//   .navbar-item-right {
+//     width: 57%;
+//     padding: 0;
+//   }
+// }
+
+ol.breadcrumb.steps {
+  .active {
+    font-weight: 600;
+    color: #666666;
+  }
+  .disabled {
+    color: #aaaaaa;
+  }
+  & > li + li:before {
+    content: "› ";
+  }
+  a {
+    font-weight: 400;
+    color: #aaaaaa;
+  }
+}
+
+.project-navbar {
+  li.active a, li:hover a {
+    // margin-bottom: -3px;
+    border-bottom: 3px solid $orange;
+  }
+  li a {
+    border-bottom: 3px solid transparent;
+  }
+  margin-bottom: 20px;
+}
+
+.list-inline.share {
+  li {
+    padding: 0;
+  }
+}
+
+// Devise
+
+.border-form-div {
+  max-width: 340px;
+  padding: 19px 29px 29px;
+  @include frame();
+}
+.border-form-div .form-signin-heading,
+.border-form-div .checkbox {
+  margin-bottom: 10px;
+}
+.border-form-div input[type="text"],
+.border-form-div input[type="email"],
+.border-form-div input[type="password"] {
+  font-size: 16px;
+  height: auto;
+  margin-bottom: 15px;
+  padding: 7px 9px;
+}

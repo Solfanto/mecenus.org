@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <h1>Support <%= @project.title %></h1>
+
+      <p>Your pledge to <%= @project.author.display_name %>: $<%= @donation.amount %> per month <%= link_to "Edit", edit_donation_path(project_name: @project.name) %></p>
+
+      <h3>Payment</h3>
+      <p>Use your credit card or Paypal</p>
+
+      <div class="bs-callout bs-callout-info">
+        <ul class="nav nav-tabs js-tab" role="tablist">
+          <li role="presentation" class="active"><a href="#stripe" aria-controls="credit-card" role="tab" data-toggle="tab">Credit Card</a></li>
+          <li role="presentation"><a href="#paypal" aria-controls="paypal" role="tab" data-toggle="tab">Paypal</a></li>
+        </ul>
+
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="stripe">
+            <div class="content">
+              <% if @card && params[:change].nil? %>
+                <%= render "payments/stripe_card", card: @card %>
+              <% else %>
+                <%= render "payments/stripe_form", url: payments_path, remote: true %>
+              <% end %>
+            </div>
+            <div class="success-content" style="display:none;">
+              Your card has been succesfully added.
+            </div>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="paypal">
+            <p>Paypal is not available yet.</p>
+          </div>
+        </div>
+      </div>
+
+      <p>By making this donation, you agree to Mecenus's <%= link_to "Terms of Use", terms_path, target: "_blank" %>.</p>
+
+      <div>
+        <%= form_for @donation, url: donations_path(project_name: params[:project_name]) do |f| %>
+          <%= f.hidden_field :amount %>
+          <%= f.submit "Confirm monthly donation", class: "confirm-btn btn btn-primary" %>
+        <% end %>
+      </div>
+
+      <p>Your monthly donation will be start next month. You can edit or cancel at anytime.</p>
+    </div>
+  </div>
+</div>

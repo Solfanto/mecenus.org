@@ -1,0 +1,18 @@
+mecenus:
+  email: mecenus@mecenus.org
+  encrypted_password: <%= User.new.send(:password_digest, 'mypassword') %>
+
+sponsor:
+  email: sponsor@mecenus.org
+  encrypted_password: <%= User.new.send(:password_digest, 'mypassword') %>
+  stripe_customer_id: cus_1234
+
+other_sponsor:
+  email: other_sponsor@mecenus.org
+  encrypted_password: <%= User.new.send(:password_digest, 'mypassword') %>
+  stripe_customer_id: cus_5678
+
+failed_sponsor:
+  email: failed_sponsor@mecenus.org
+  encrypted_password: <%= User.new.send(:password_digest, 'mypassword') %>
+  stripe_customer_id: cus_9012

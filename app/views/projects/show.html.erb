@@ -1,0 +1,37 @@
+<div class="container">
+  <%= render "header" %>
+</div>
+<div class="container project-show">
+  <div class="row">
+    <div class="col-sm-4 sidebar">
+      <%= render "side_bar" %>
+      <!-- Top supporters -->
+    </div>
+
+    <div class="col-sm-8 main">
+      <%= render "navbar" %>
+
+      <!-- Banner -->
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="info">
+            <span class="source">Source: <%= link_to @project.repo_type, @project.repo_url, target: "_blank" %> <% if @project.language %>(<%= @project.language %>)<% end %></span>
+            <% if @project.readme_url %>
+            <span class="readme">Doc: <%= link_to "Readme", @project.readme_url, target: "_blank" %></span>
+            <% end %>
+            <% if @project.changelog_url %>
+            <span class="changelog">Change log: <%= link_to @project.latest_update_at, @project.changelog_url, target: "_blank" %></span>
+            <% elsif @project.latest_update_at %>
+            <span class="last_update_at">Last update: <%= @project.latest_update_atl %></span>
+            <% end %>
+            <span class="license">License: <%= link_to @project.license, @project.license_url, target: "_blank" %></span>
+          </div>
+          <div class="description">
+            <%= markdown @project.description %>
+          </div>
+        </div>
+
+      
+    </div>
+  </div>
+</div>

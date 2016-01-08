@@ -1,0 +1,82 @@
+<% if @project.user == current_user %>
+<div class="project-settings panel panel-default">
+  <div class="panel-body">
+    <h1>Settings</h1>
+    <ul class="list-unstyled">
+      <li><%= link_to "Post update", new_project_post_path(@project.name) %></li>
+      <li><%= link_to "Edit description", edit_project_path(@project.name) %></li>
+      <% if @project.closed? %>
+      <li><%= link_to "Reopen project", reopen_project_path(@project.name), method: "POST", data: {confirm: "Are you sure to reopen this project?"} %></li>
+      <% else %>
+      <li><%= link_to "Close project", close_project_path(@project.name) %></li>
+      <% end %>
+      <% if !@project.published? %>
+      <li><%= link_to "Publish", publish_project_path(@project.name), method: "POST", data: {confirm: "Are you sure to publish this project?"} %></li>
+      <% end %>
+    </ul>
+    
+  </div>
+</div>
+<% end %>
+
+<div class="project-donation panel panel-default">
+
+  <div class="panel-body">
+    <% if @project.user_id != current_user&.id %>
+      <% if @donation.new_record? %>
+        <% unless @project.closed? %>
+          <%= form_tag new_donation_path(project_name: @project.name), method: 'GET', enforce_utf8: false, class: "form" do %>
+            Donate $
+            <%= text_field_tag :amount, @donation.amount.to_i, class: "form-control donation-field" %>
+            <br>
+            per month
+            <br>
+            <%= submit_tag "Support project", name: nil, class: "btn btn-primary" %>
+          <% end %>
+        <% end %>
+      <% else %>
+        <p>
+          You're donating $<%= @donation.amount %> per month. <%= link_to "Change", edit_donation_path(project_name: @project.name) %>
+        </p>
+      <% end %>
+    <br>
+    <% end %>
+    <% unless @project.closed? %>
+      <div class="count"><%= @project.donations_count %></div>
+      <div class="unit">Supporters</div>
+      <div class="count">$<%= @project.donation_amount_per_month %></div>
+      <div class="unit">each month</div>
+    <% else %>
+      <p>
+        This project is currently closed.<br>
+        No donation is taken while it is closed.
+      </p>
+    <% end %>
+  </div>
+</div>
+
+<div class="project-info panel panel-default">
+  <div class="panel-body">
+    <!-- Profile picture -->
+    <h1><%= @project.author.display_name %></h1>
+    <div class="author-contact">
+      <% unless @project.author.twitter_username.blank? %>
+      <div>
+        <span class="fa fa-twitter"></span>
+        <%= link_to "@#{@project.author.twitter_username}", "https://www.twitter.com/#{@project.author.twitter_username}", target: "_blank" %>
+      </div>
+      <% end %>
+      <% unless @project.author.facebook_username.blank? %>
+      <div>
+        <span class="fa fa-facebook"></span>
+        <%= link_to "facebook.com/#{@project.author.facebook_username}", "https://www.facebook.com/#{@project.author.facebook_username}", target: "_blank" %>
+      </div>
+      <% end %>
+    </div>
+    <h1>Bio</h1>
+    <div><%= @project.author.bio %></div>
+    <h1>Location</h1>
+    <div><%= @project.author.location %></div>
+  </div>
+</div>
+

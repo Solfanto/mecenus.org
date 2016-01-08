@@ -1,0 +1,6 @@
+<div class="cardnumber">**** **** **** <%= card["last4"] %></div>
+<% if params[:project_name] %>
+<div class="edit"><%= link_to "Use another card", new_donation_path(project_name: params[:project_name], amount: params[:amount], change: true) %></div>
+<% else %>
+<div class="edit"><%= link_to "Use another card", payment_settings_path(change: true) %></div>
+<% end %>

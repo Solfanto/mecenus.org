@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-offset-2 col-sm-8 main">
+      <h1>Post Update</h1>
+      <%= form_for @post, url: project_post_path(@project.name, @post), method: 'PATCH' do |f| %>
+        <%= hidden_field_tag :project_name, params[:project_name] if params[:project_name] %>
+        <div class="form-group">
+          <%= f.label :title, "Title:" %>
+          <%= f.text_field :title, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :content, "Content:" %>
+          <%= f.text_area :content, rows: 10, class: "form-control" %>
+        </div>
+        <%= link_to "Back", :back, class: "btn btn-default" %>
+        <%= f.submit "Update", class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+</div>

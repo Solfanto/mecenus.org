@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-offset-2 col-sm-8">
+      <h1>Update Profile</h1>
+
+      <%= render "form_errors", model: @user %>
+
+      <%= form_for @user, url: profile_path, method: 'PATCH' do |f| %>
+        <div class="form-group">
+          <%= f.label :country, "Country:" %>
+          <%= f.text_field :country, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :country, "Your name:" %>
+          <%= f.text_field :display_name, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :country, "Twitter:" %>
+          <%= f.text_field :twitter_username, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :country, "FB:" %>
+          <%= f.text_field :facebook_username, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :country, "Bio:" %>
+          <%= f.text_area :bio, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :country, "Location:" %>
+          <%= f.text_field :location, class: "form-control" %>
+        </div>
+
+        <%= f.submit "Update", class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+</div>

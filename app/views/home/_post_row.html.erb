@@ -1,0 +1,8 @@
+<article class="post">
+  <h1><%= post.title %></h1>
+  <div>
+    By <%= link_to post.project.title, project_path(post.project.name) %>
+    - <span class="date">Published <%= timeago_tag post.created_at, no_js: true, limit: (1.year + 1.month).ago %></span>
+  </div>
+  <p><%= markdown post.content %></p>
+</article>

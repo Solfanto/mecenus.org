@@ -1,0 +1,12 @@
+<% if model.errors.count > 0 %>
+<div id="error_explanation" class="alert alert-danger">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h3><%= pluralize(model.errors.count, "error") %></h3>
+  <ul>
+    <% model.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+  
+</div>
+<% end %>

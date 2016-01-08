@@ -1,0 +1,14 @@
+<div class="container">
+  <h1>Payment method settings</h1>
+  <div class="content">
+    <% if @card && params[:change].nil? %>
+      <h3>Current card:</h3>
+      <%= render "payments/stripe_card", card: @card %>
+    <% else %>
+      <%= render "payments/stripe_form", url: payments_path, remote: true %>
+    <% end %>
+  </div>
+  <div class="success-content" style="display:none;">
+    Your card has been succesfully added.
+  </div>
+</div>

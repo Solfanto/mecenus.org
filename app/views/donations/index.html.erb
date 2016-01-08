@@ -1,0 +1,44 @@
+<div class="container">
+  <h1>You are supporting <%= @donations.count %> projects!</h1>
+  <ul>
+    <% @donations.each do |donation| %>
+      <% if donation.enabled? %>
+      <li><%= link_to donation.project.title, project_path(donation.project.name) %>: <%= donation.currency %><%= donation.amount %> per month</li>
+      <% else %>
+      <li><%= donation.project.title %>: <%= donation.currency %><%= donation.amount %> per month (disabled)</li>
+      <% end %>
+    <% end %>
+  </ul>
+
+  <h1>Incoming donations</h1>
+  <table class="table incoming-donations">
+    <tr>
+      <th>Date</th>
+      <th>Amount</th>
+      <th>Project</th>
+    </tr>
+    <% @incoming_payments.each do |donation| %>
+    <tr>
+      <td><%= timeago_tag donation.processed_at, no_js: true, limit: 1.minute.ago %></td>
+      <td><%= donation.currency %><%= donation.amount %></td>
+      <td><%= donation.project.title %></td>
+    </tr>
+    <% end %>
+  </table>
+
+  <h1>Processed donations</h1>
+  <table class="table donations">
+    <tr>
+      <th>Date</th>
+      <th>Amount</th>
+      <th>Project</th>
+    </tr>
+    <% @processed_payments.each do |donation| %>
+    <tr>
+      <td><%= timeago_tag donation.processed_at, no_js: true, limit: 1.minute.ago %></td>
+      <td><%= donation.currency %><%= donation.amount %></td>
+      <td><%= donation.project.title %></td>
+    </tr>
+    <% end %>
+  </table>
+</div>

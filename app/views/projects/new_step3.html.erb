@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-offset-2 col-sm-8">
+      <%= render "steps_banner", step: @step %>
+
+      <%= render "form_errors", model: @user %>
+
+      <% if @existing_bank_account %>
+        <div class="form-group">
+          <%= label_tag :country, "Country:" %>
+          <%= country_select :user, :country, {selected: @existing_bank_account["country"] || "US"}, {class: "form-control", disabled: true} %>
+        </div>
+        <div class="form-group">
+          <%= label_tag :bank_holder_name, "Bank holder's name:" %>
+          <%= text_field_tag :bank_holder_name, nil, value: @existing_bank_account["name"], readonly: true, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= label_tag :bank_account_number, "Bank account number:" %>
+          <%= text_field_tag :bank_account_number, nil, value: "********#{@existing_bank_account["last4"]}", readonly: true, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= label_tag :bank_routing_number, "Routing number:" %>
+          <%= text_field_tag :bank_routing_number, nil, value: "******#{@existing_bank_account["routing_number"][-3..-1]}", readonly: true, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= label_tag :currency, "Currency:" %>
+          <%= text_field_tag :currency, nil, value: @existing_bank_account["currency"].upcase, readonly: true, class: "form-control" %>
+        </div>
+
+        <%= link_to "Change bank account", create_project_path(project_name: params[:project_name], step: 3, change_bank_account: true), class: "btn btn-warning" %>
+        <%= link_to "Next", create_project_path(project_name: params[:project_name], step: 4), class: "btn btn-primary" %>
+      <% else %>
+        <%= form_for @user, url: create_project_path, method: 'POST' do |f| %>
+          <%= hidden_field_tag :step, @step %>
+          <%= hidden_field_tag :project_name, params[:project_name] %>
+          <div class="form-group">
+            <%= f.label :country, "Country:" %>
+            <%= f.country_select :country, {selected: @project.country || @user.country || "US"}, {class: "form-control"} %>
+          </div>
+          <div class="form-group">
+            <%= f.label :bank_holder_name, "Bank holder's name:" %>
+            <%= f.text_field :bank_holder_name, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :bank_account_number, "Bank account number:" %>
+            <%= f.text_field :bank_account_number, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :bank_routing_number, "Routing number:" %>
+            <%= f.text_field :bank_routing_number, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :currency, "Currency:" %>
+            <%= f.text_field :currency, class: "form-control" %>
+          </div>
+          <% if params[:change_bank_account] %>
+            <%= link_to "Cancel", create_project_path(project_name: params[:project_name], step: 3), class: "btn btn-default" %>
+          <% end %>
+          <%= f.submit "Next", class: "btn btn-primary" %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-offset-2 col-sm-8">
+      <%= render "steps_banner", step: @step %>
+
+      <%= render "form_errors", model: @user %>
+
+      <%= form_for @user, url: create_project_path, method: 'POST' do |f| %>
+        <%= hidden_field_tag :step, @step %>
+        <%= hidden_field_tag :project_name, params[:project_name] if params[:project_name] %>
+        <div class="form-group">
+          <%= f.label :country, "Country:" %>
+          <%= f.country_select :country, {selected: @user.country || "US"}, {class: "form-control"} %>
+        </div>
+        <div class="form-group">
+          <%= f.label :display_name, "Your name:" %>
+          <%= f.text_field :display_name, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :twitter_username, "Twitter:" %>
+          <%= f.text_field :twitter_username, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :facebook_username, "FB:" %>
+          <%= f.text_field :facebook_username, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :bio, "Bio:" %>
+          <%= f.text_area :bio, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :location, "Location:" %>
+          <%= f.text_field :location, class: "form-control" %>
+        </div>
+
+        <%= f.submit "Next", class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+</div>

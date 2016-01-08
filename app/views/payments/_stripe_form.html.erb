@@ -1,0 +1,79 @@
+<% if params[:change] %>
+Your previous card will be removed.
+<% end %>
+
+<%= form_tag url, remote: remote, class: "form-horizontal", id: "stripe", 'data-type' => 'json' do %>
+  <%= hidden_field_tag :provider, "stripe" %>
+
+  <div class="form-group">
+    <%= label_tag :name, "Name", class: "col-xs-4" %>
+    <div class="col-xs-8">
+      <%= text_field_tag :name, current_user.display_name, autocomplete: false, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :card_number, "Credit Card Number", class: "col-xs-4" %>
+    <div class="col-xs-8">
+      <%= text_field_tag :card_number, Rails.application.config.stage == :alpha ? "4242424242424242" : nil, autocomplete: false, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :cvc, "Security Code on Card (CVC)", class: "col-xs-4" %>
+    <div class="col-xs-8">
+      <%= text_field_tag :cvc, Rails.application.config.stage == :alpha ? "123" : nil, autocomplete: false, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :exp_month, "Expiration date", class: "col-xs-4" %>
+    <div class="col-xs-3">
+      <div class="input-group">
+        <%= text_field_tag :exp_month, Rails.application.config.stage == :alpha ? "12" : nil, maxlength: 2, placeholder: "MM", autocomplete: false, class: "form-control" %>
+        <div class="input-group-addon">/</div>
+        <%= text_field_tag :exp_year, Rails.application.config.stage == :alpha ? "20" : nil, maxlength: 2, placeholder: "YY", autocomplete: false, class: "form-control" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+  <%= label_tag :address_line1, "Address", class: "col-xs-4" %>
+    <div class="col-xs-8">
+      <%= text_field_tag :address_line1, nil, placeholder: "Address Line 1", autocomplete: false, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-xs-offset-4 col-xs-8">
+      <%= text_field_tag :address_line2, nil, placeholder: "Address Line 2", autocomplete: false, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-xs-offset-4 col-xs-8">
+      <%= text_field_tag :address_city, nil, placeholder: "City", autocomplete: false, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-xs-offset-4 col-xs-4">
+      <%= text_field_tag :address_state, nil, placeholder: "State", autocomplete: false, class: "form-control" %>
+    </div>
+    <div class="col-xs-4">
+      <%= text_field_tag :address_zip, nil, placeholder: "ZIP code", autocomplete: false, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-xs-offset-4 col-xs-8">
+      <%= text_field_tag :address_country, nil, placeholder: "Country", autocomplete: false, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group clear">
+    <div class="col-xs-offset-4 col-xs-8">
+      <%= submit_tag "Add", class: "btn btn-primary" %>
+      <% if params[:change] && params[:project_name] %>
+      <%= link_to "Back", new_donation_path(project_name: params[:project_name], amount: params[:amount]), class: "btn btn-default" %>
+      <% elsif params[:change] %>
+      <%= link_to "Back", payment_settings_path, class: "btn btn-default" %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

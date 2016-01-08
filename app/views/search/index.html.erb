@@ -1,0 +1,7 @@
+<div class="container">
+  <p>Results for <%= params[:q] %></p>
+  <% for project in @projects %>
+  <%= render "welcome/project_row", project: project %>
+
+  <% end %>
+</div>

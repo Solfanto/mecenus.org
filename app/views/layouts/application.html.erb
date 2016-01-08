@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mecenus</title>
+  <%= render "application/favicon" %>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<%= render "application/top_bar" %>
+
+<% flash.each do |key, value| %>
+<div class="container">
+  <div class="alert alert-<%= key %> alert-<%= key == "alert" ? "warning" : "info" %>">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <%= simple_format value %>
+  </div>
+</div>
+<% end %>
+
+
+<%= yield %>
+
+<%= render "application/footer" %>
+
+</body>
+</html>

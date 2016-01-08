@@ -1,0 +1,12 @@
+<div class="container">
+  <h1>Last Updates</h1>
+  <!-- List of updates -->
+  <% @posts.each do |post| %>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <%= render "post_row", post: post %>
+      </div>
+    </div>
+  <% end %>
+</div>
+

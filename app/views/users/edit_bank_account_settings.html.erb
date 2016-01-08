@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-offset-2 col-sm-8">
+      <%= render "form_errors", model: @user %>
+
+      <h1>Bank Account</h1>
+      <% if @existing_bank_account %>
+        <div class="form-group">
+          <%= label_tag :country, "Country:" %>
+          <%= country_select :user, :country, {selected: @existing_bank_account["country"] || "US"}, {class: "form-control", disabled: true} %>
+        </div>
+        <div class="form-group">
+          <%= label_tag :bank_holder_name, "Bank holder's name:" %>
+          <%= text_field_tag :bank_holder_name, nil, value: @existing_bank_account["name"], readonly: true, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= label_tag :bank_account_number, "Bank account number:" %>
+          <%= text_field_tag :bank_account_number, nil, value: "********#{@existing_bank_account["last4"]}", readonly: true, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= label_tag :bank_routing_number, "Routing number:" %>
+          <%= text_field_tag :bank_routing_number, nil, value: "******#{@existing_bank_account["routing_number"][-3..-1]}", readonly: true, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= label_tag :currency, "Currency:" %>
+          <%= text_field_tag :currency, nil, value: @existing_bank_account["currency"].upcase, readonly: true, class: "form-control" %>
+        </div>
+
+        <%= link_to "Change bank account", bank_account_settings_path(change_bank_account: true), class: "btn btn-warning" %>
+      <% else %>
+        <%= form_for @user, url: bank_account_settings_path, method: 'PUT' do |f| %>
+          <%= hidden_field_tag :step, @step %>
+          <%= hidden_field_tag :project_name, params[:project_name] %>
+          <div class="form-group">
+            <%= f.label :country, "Country:" %>
+            <%= f.country_select :country, {selected: @country || @user.country || "US"}, {class: "form-control"} %>
+          </div>
+          <div class="form-group">
+            <%= f.label :bank_holder_name, "Bank holder's name:" %>
+            <%= f.text_field :bank_holder_name, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :bank_account_number, "Bank account number:" %>
+            <%= f.text_field :bank_account_number, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :bank_routing_number, "Routing number:" %>
+            <%= f.text_field :bank_routing_number, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :currency, "Currency:" %>
+            <%= f.text_field :currency, class: "form-control" %>
+          </div>
+          <% if params[:change_bank_account] %>
+            <%= link_to "Cancel", bank_account_settings_path, class: "btn btn-default" %>
+          <% end %>
+          <%= f.submit "Update", class: "btn btn-primary" %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="donation-form">
+        <%= form_tag new_donation_path(project_name: @project.name), method: 'GET', enforce_utf8: false, class: "form" do %>
+          Donate $<%= text_field_tag :amount, @donation.amount, class: "form-control donation-field" %> per month
+          <%= submit_tag "Support project", name: nil, class: "btn btn-primary" %>
+        <% end %>
+      </div>
+
+      <% unless @donation.new_record? %>
+      <%= button_to "Cancel donation", donation_path(project_name: @project.name), method: :delete, data: { confirm: "Do you want to cancel your donation?" }, class: "btn btn-primary" %>
+
+      <% end %>
+    </div>
+  </div>
+</div>

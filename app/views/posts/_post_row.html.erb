@@ -1,0 +1,8 @@
+<article class="post">
+  <h1><%= post.title %></h1>
+  <div class="date">Published <%= link_to project_post_path(@project.name, post) do %><%= timeago_tag post.created_at, no_js: true, limit: (1.year + 1.month).ago %><% end %></div>
+  <p><%= markdown post.content %></p>
+  <% if current_user&.id == post.user_id %>
+  <%= link_to "Edit", edit_project_post_path(@project.name, post), class: "btn btn-primary" %>
+  <% end %>
+</article>
