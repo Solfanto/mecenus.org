@@ -24,7 +24,7 @@
             <% elsif @project.latest_update_at %>
             <span class="last_update_at">Last update: <%= @project.latest_update_atl %></span>
             <% end %>
-            <span class="license">License: <%= link_to @project.license, @project.license_url, target: "_blank" %></span>
+            <span class="license">License: <%= @project.license_url ? link_to(@project.license, @project.license_url, target: "_blank") : @project.license %></span>
           </div>
           <div class="description">
             <%= markdown @project.description %>
