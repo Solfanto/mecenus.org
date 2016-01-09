@@ -19,3 +19,4 @@
 /public/uploads
 .rbenv-vars
 /config/deploy/*.rb
+/SOLFANTO_NOTES
