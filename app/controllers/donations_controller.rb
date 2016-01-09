@@ -31,7 +31,7 @@ class DonationsController < ApplicationController
   def create
     @project = Project.published.not_closed.find_by!(name: params[:project_name])
     if current_user.donate_to(@project, params[:donation][:amount])
-      redirect_to project_path(@project.name), notice: "Your donation has been registered."
+      redirect_to project_url(@project.name), notice: "Your donation has been registered."
     else
       render :new
     end
@@ -41,6 +41,6 @@ class DonationsController < ApplicationController
     @project = Project.published.not_closed.find_by!(name: params[:project_name])
     current_user.cancel_donation_for(@project)
 
-    redirect_to @project, notice: "Your monthly donation has been cancelled."
+    redirect_to project_url(@project.name), notice: "Your monthly donation has been cancelled."
   end
 end

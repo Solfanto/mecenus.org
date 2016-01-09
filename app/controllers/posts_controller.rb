@@ -28,7 +28,7 @@ class PostsController < ApplicationController
     @post.title = params[:post][:title]
     @post.content = params[:post][:content]
     if @post.save
-      redirect_to project_posts_path(@project.name)
+      redirect_to project_posts_url(@project.name)
     else
       render :new
     end
@@ -47,7 +47,7 @@ class PostsController < ApplicationController
     @post.title = params[:post][:title]
     @post.content = params[:post][:content]
     if @post.save
-      redirect_to project_posts_path(@project.name)
+      redirect_to project_posts_url(@project.name)
     else
       render :edit
     end
@@ -57,6 +57,6 @@ class PostsController < ApplicationController
     @project = current_user.created_projects.find_by!(name: params[:project_name])
     @post = @project.posts.find(params[:id])
     @post.destroy
-    redirect_to project_posts_path(@project.name)
+    redirect_to project_posts_url(@project.name)
   end
 end

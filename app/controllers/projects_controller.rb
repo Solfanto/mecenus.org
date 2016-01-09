@@ -105,7 +105,7 @@ class ProjectsController < ApplicationController
         redirect_to root_url
       else 
         if @project.publish
-          redirect_to @project
+          redirect_to project_url(@project.name)
         else
           render :new_step4
         end
@@ -164,12 +164,12 @@ class ProjectsController < ApplicationController
   def destroy
     @project = current_user.created_projects.find_by!(name: params[:name])
     @project.close
-    redirect_to project_path(@project.name), alert: "Your project has been closed."
+    redirect_to project_url(@project.name), alert: "Your project has been closed."
   end
 
   def reopen
     @project = current_user.created_projects.find_by!(name: params[:name])
     @project.reopen
-    redirect_to project_path(@project.name), notice: "Your project has been reopened!"
+    redirect_to project_url(@project.name), notice: "Your project has been reopened!"
   end
 end
