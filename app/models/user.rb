@@ -77,7 +77,7 @@ class User < ActiveRecord::Base
     existing_bank_accounts = {"data" => []}
 
     if self.stripe_account_id.nil?
-      Stripe.api_key = ENV["STRIPE_SECRET_KEY"]
+      Stripe.api_key = Rails.application.secrets.stripe_secret_key
       stripe_account = Stripe::Account.create(
         {
           country: country,

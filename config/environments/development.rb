@@ -46,8 +46,5 @@ Rails.application.configure do
     Bullet.rails_logger = true
   end
 
-  config.stripe.secret_key = ENV["STRIPE_SECRET_KEY"]
-  config.stripe.publishable_key = ENV["STRIPE_PUBLISHABLE_KEY"]
-
   config.stage = :alpha
 end

@@ -22,5 +22,8 @@ module SiteMecenus
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    config.stripe.secret_key = Rails.application.secrets.stripe_secret_key
+    config.stripe.publishable_key = Rails.application.secrets.stripe_publishable_key
   end
 end
