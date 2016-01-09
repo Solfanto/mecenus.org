@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160108165637) do
+ActiveRecord::Schema.define(version: 20160109185035) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,14 +42,14 @@ ActiveRecord::Schema.define(version: 20160108165637) do
     t.integer  "user_id"
     t.integer  "project_id"
     t.date     "date"
-    t.float    "amount",                   default: 0.0
+    t.decimal  "amount",                   precision: 10, scale: 2, default: 0.0
     t.string   "currency"
-    t.float    "balance",                  default: 0.0
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.decimal  "balance",                  precision: 10, scale: 2, default: 0.0
+    t.datetime "created_at",                                                      null: false
+    t.datetime "updated_at",                                                      null: false
     t.datetime "processed_at"
-    t.integer  "expected_donations_count", default: 0
-    t.integer  "received_donations_count", default: 0
+    t.integer  "expected_donations_count",                          default: 0
+    t.integer  "received_donations_count",                          default: 0
     t.datetime "aggregated_at"
     t.string   "stripe_transfer_id"
     t.string   "state"
@@ -57,14 +57,14 @@ ActiveRecord::Schema.define(version: 20160108165637) do
 
   create_table "donations", force: :cascade do |t|
     t.integer  "user_id"
-    t.boolean  "anonymous",              default: false
+    t.boolean  "anonymous",                                       default: false
     t.integer  "project_id"
-    t.float    "amount",                 default: 0.0
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
-    t.boolean  "enabled",                default: true
-    t.string   "recurrence_type",        default: "monthly"
-    t.integer  "processing_day",         default: 1
+    t.decimal  "amount",                 precision: 10, scale: 2, default: 0.0
+    t.datetime "created_at",                                                          null: false
+    t.datetime "updated_at",                                                          null: false
+    t.boolean  "enabled",                                         default: true
+    t.string   "recurrence_type",                                 default: "monthly"
+    t.integer  "processing_day",                                  default: 1
     t.string   "stripe_plan_id"
     t.string   "stripe_subscription_id"
   end
@@ -74,11 +74,11 @@ ActiveRecord::Schema.define(version: 20160108165637) do
     t.integer  "project_id"
     t.integer  "donation_id"
     t.integer  "donation_record_id"
-    t.float    "amount",             default: 0.0
-    t.string   "currency",           default: "USD"
+    t.decimal  "amount",             precision: 10, scale: 2, default: 0.0
+    t.string   "currency",                                    default: "USD"
     t.datetime "processed_at"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.datetime "created_at",                                                  null: false
+    t.datetime "updated_at",                                                  null: false
     t.string   "state"
   end
 
@@ -118,12 +118,12 @@ ActiveRecord::Schema.define(version: 20160108165637) do
     t.text     "description"
     t.string   "url"
     t.string   "repo_url"
-    t.float    "donation_amount_per_month", default: 0.0
-    t.integer  "donations_count",           default: 0
-    t.integer  "posts_count",               default: 0
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
-    t.boolean  "published",                 default: false
+    t.decimal  "donation_amount_per_month", precision: 10, scale: 2, default: 0.0
+    t.integer  "donations_count",                                    default: 0
+    t.integer  "posts_count",                                        default: 0
+    t.datetime "created_at",                                                         null: false
+    t.datetime "updated_at",                                                         null: false
+    t.boolean  "published",                                          default: false
     t.string   "latest_version"
     t.string   "readme_url"
     t.string   "changelog_url"
@@ -135,11 +135,11 @@ ActiveRecord::Schema.define(version: 20160108165637) do
     t.datetime "license_url"
     t.datetime "featured_from"
     t.datetime "featured_until"
-    t.boolean  "verified",                  default: false
+    t.boolean  "verified",                                           default: false
     t.datetime "verified_at"
     t.integer  "verified_by_id"
-    t.integer  "processing_day",            default: 1
-    t.string   "currency",                  default: "USD"
+    t.integer  "processing_day",                                     default: 1
+    t.string   "currency",                                           default: "USD"
   end
 
   add_index "projects", ["verified_by_id"], name: "index_projects_on_verified_by_id", using: :btree
@@ -162,14 +162,14 @@ ActiveRecord::Schema.define(version: 20160108165637) do
     t.string   "facebook_username"
     t.text     "bio"
     t.string   "location"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-    t.string   "email",                  default: "",  null: false
-    t.string   "encrypted_password",     default: "",  null: false
+    t.datetime "created_at",                                                    null: false
+    t.datetime "updated_at",                                                    null: false
+    t.string   "email",                                           default: "",  null: false
+    t.string   "encrypted_password",                              default: "",  null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,   null: false
+    t.integer  "sign_in_count",                                   default: 0,   null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
@@ -177,10 +177,10 @@ ActiveRecord::Schema.define(version: 20160108165637) do
     t.string   "stripe_account_id"
     t.string   "country"
     t.string   "currency"
-    t.integer  "created_projects_count", default: 0
+    t.integer  "created_projects_count",                          default: 0
     t.datetime "deleted_at"
     t.string   "stripe_customer_id"
-    t.float    "balance",                default: 0.0
+    t.decimal  "balance",                precision: 10, scale: 2, default: 0.0
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
