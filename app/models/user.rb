@@ -173,7 +173,16 @@ class User < ActiveRecord::Base
   end
 
   def current_card
+    return nil if self.stripe_customer_id.nil?
     @current_card ||= Stripe::Customer.retrieve(self.stripe_customer_id).sources.all(limit: 1, object: "card")["data"].last
+  rescue Stripe::InvalidRequestError => error
+    if error.message == "No such customer: #{self.stripe_customer_id}"
+      self.stripe_customer_id = nil
+      self.save
+      @current_card = nil
+    end
+  ensure
+    @current_card
   end
 
   # provide a custom message for a deleted account   
