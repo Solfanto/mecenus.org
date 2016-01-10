@@ -1,5 +1,6 @@
 mecenus_org:
   user: mecenus
   name: mecenus.org
+  title: mecenus.org
   repo_url: https://github.com/Solfanto/mecenus.org
   license: https://github.com/Solfanto/mecenus.org/blob/master/LICENSE

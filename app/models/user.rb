@@ -198,6 +198,6 @@ class User < ActiveRecord::Base
 
   def cancel_donation_for(project)
     donation = self.donations.where(project_id: project.id).first
-    donation.destroy
+    donation&.destroy
   end
 end

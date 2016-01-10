@@ -21,6 +21,7 @@ class Project < ActiveRecord::Base
   validates :name, presence: true
   validates :name, exclusion: { in: PROTECTED_NAMES, message: "%{value} is reserved." }
   validates :name, uniqueness: true
+  validates :title, presence: true
   validates :repo_url, presence: true
   validates :license, presence: true
   validates :processing_day, numericality: { greater_than: 0, less_than: 29 }

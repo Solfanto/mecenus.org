@@ -290,7 +290,7 @@ GEM
     slop (3.6.0)
     sort_alphabetical (1.0.2)
       unicode_utils (>= 1.2.2)
-    spring (1.6.1)
+    spring (1.6.2)
     sprockets (3.5.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -307,6 +307,8 @@ GEM
     stripe-rails (0.3.1)
       rails (>= 3)
       stripe
+    test_after_commit (0.4.2)
+      activerecord (>= 3.2)
     therubyracer (0.12.2)
       libv8 (~> 3.16.14.0)
       ref
@@ -380,6 +382,7 @@ DEPENDENCIES
   sinatra (>= 1.3.0)
   spring
   stripe-rails
+  test_after_commit
   therubyracer
   turbolinks
   uglifier (>= 1.3.0)

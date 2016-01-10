@@ -44,6 +44,9 @@ class PaymentTest < ActiveSupport::TestCase
     record = project.donation_records.order("created_at ASC").last
     assert record.amount == amount + other_amount, "Donation record has incorrect amount: #{record.amount} instead of #{amount + other_amount}"
     assert !record.aggregated_at.nil?, "Record is not aggregated: #{record.aggregated_at}"
+
+    sponsor.cancel_donation_for(project)
+    other_sponsor.cancel_donation_for(project)
   end
 
   test "payment is correctly processed even if one payment fails" do
@@ -106,5 +109,9 @@ class PaymentTest < ActiveSupport::TestCase
     record = project.donation_records.order("created_at ASC").last
     assert record.amount == amount + other_amount, "Donation record has incorrect amount: #{record.amount} instead of #{amount + other_amount}"
     assert !record.aggregated_at.nil?, "Record is not aggregated: #{record.aggregated_at}"
+
+    sponsor.cancel_donation_for(project)
+    other_sponsor.cancel_donation_for(project)
+    failed_sponsor.cancel_donation_for(project)
   end
 end

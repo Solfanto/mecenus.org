@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   get 'projects/:project_name/support', to: 'donations#new', as: 'new_donation', constraints: { project_name: /[^\/]+/ }
   post 'projects/:project_name/support', to: 'donations#create', as: 'donations', constraints: { project_name: /[^\/]+/ }
   get 'projects/:project_name/support/edit', to: 'donations#edit', as: 'edit_donation', constraints: { project_name: /[^\/]+/ }
-  delete 'projects/:project_name/support', to: 'projects#cancel', as: 'donation', constraints: { project_name: /[^\/]+/ }
+  delete 'projects/:project_name/support', to: 'donations#cancel', as: 'donation', constraints: { project_name: /[^\/]+/ }
   post 'projects/:project_name/follow', to: 'projects#follow', as: 'follow', constraints: { project_name: /[^\/]+/ }
   post 'projects/:project_name/unfollow', to: 'projects#unfollow', as: 'unfollow', constraints: { project_name: /[^\/]+/ }
   get 'projects/:project_name/supporters', to: 'projects#sponsors', as: 'sponsors', constraints: { project_name: /[^\/]+/ }

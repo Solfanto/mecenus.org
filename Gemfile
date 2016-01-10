@@ -76,6 +76,7 @@ end
 
 group :test do
   gem 'minitest-reporters'
+  gem 'test_after_commit' # deprecated for Rails 5+: https://github.com/rails/rails/pull/18458
 end
 
 source 'https://rails-assets.org' do
