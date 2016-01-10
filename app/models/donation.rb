@@ -25,7 +25,7 @@ class Donation < ActiveRecord::Base
 
   def create_stripe_plan!
     self.plan = Stripe::Plan.create(
-      amount: self.amount.to_i,
+      amount: Currency::ZERO_DECIMAL_CURRENCIES.include?(self.currency) ? self.amount.to_i : (self.amount * 100).to_i,
       interval: self.recurrence_type == "yearly" ? "year" : "month",
       name: "Donation for #{self.project.title}",
       currency: self.currency.downcase,
