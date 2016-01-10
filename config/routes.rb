@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   get 'projects', to: 'projects#index', as: 'projects'
   # get 'projects(/:id)', to: 'projects#show', as: 'project'
   get 'projects/:name/edit', to: 'projects#edit', as: 'edit_project', constraints: { name: /[^\/]+/ }
-  patch 'projects/:name', to: 'projects#update', constraints: { name: /[^\/]+/ }
+  patch 'projects/:name', to: 'projects#update', constraints: { name: /[^\/]+/ }, as: 'update_project'
   get 'projects/:name/close', to: 'projects#close', as: 'close_project', constraints: { name: /[^\/]+/ }
   delete 'projects/:name', to: 'projects#destroy', constraints: { name: /[^\/]+/ }
   post 'projects/:name/reopen', to: 'projects#reopen', as: 'reopen_project', constraints: { name: /[^\/]+/ }

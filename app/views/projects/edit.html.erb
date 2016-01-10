@@ -11,7 +11,7 @@
       <%= render "form_errors", model: @project %>
 
       <h1>Edit Project</h1>
-      <%= form_for @project do |f| %>
+      <%= form_for @project, url: update_project_path(@project.name) do |f| %>
         <div class="form-group">
           <%= f.label :title, "Project title:" %>
           <%= f.text_field :title, class: "form-control" %>
