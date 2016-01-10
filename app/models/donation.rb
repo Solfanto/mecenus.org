@@ -11,6 +11,7 @@ class Donation < ActiveRecord::Base
 
   validates :amount, numericality: { greater_than: 0 }
   validates :processing_day, numericality: { greater_than: 0, less_than: 29 }
+  validates :project_id, uniqueness: { scope: :user_id }
 
   scope :enabled, -> {where(enabled: true)}
 
@@ -46,7 +47,7 @@ class Donation < ActiveRecord::Base
     raise DonationError, "Plan couldn't be created" if self.plan.nil?
 
     customer = Stripe::Customer.retrieve(self.user.stripe_customer_id)
-    
+
     if project.processing_day > Time.now.utc.day
       trial_end = Time.now.utc.change(day: project.processing_day).beginning_of_day
     else
