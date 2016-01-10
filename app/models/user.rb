@@ -190,6 +190,10 @@ class User < ActiveRecord::Base
   end
 
   def donate_to(project, amount)
+    if self.stripe_customer_id.nil?
+      self.errors.add("Current credit card", "is not valid.")
+      return false
+    end
     donation = self.donations.where(project_id: project.id).first
     donation ||= self.donations.build(project_id: project.id)
     donation.amount = amount

@@ -53,7 +53,12 @@ class Donation < ActiveRecord::Base
     self.stripe_subscription_id = self.subscription["id"]
     self.save!
   rescue Stripe::InvalidRequestError => e
-    raise DonationError, "Subscription couldn't be started: #{e.message}"
+    if error.message == "No such customer: #{self.user.stripe_customer_id}"
+      self.user.stripe_customer_id = nil
+      self.user.save
+    else
+      raise DonationError, "Subscription couldn't be started: #{e.message}"
+    end
   end
   after_commit :start_subscription, on: :create
 
@@ -87,6 +92,11 @@ class Donation < ActiveRecord::Base
 
     old_plan = Stripe::Plan.retrieve(self.stripe_plan_id) if self.stripe_plan_id
     old_plan&.delete
+  rescue Stripe::InvalidRequestError => error
+    if error.message == "No such customer: #{self.user.stripe_customer_id}"
+      self.user.stripe_customer_id = nil
+      self.user.save
+    end
   end
   after_commit :stop_subscription, on: :destroy
 end
