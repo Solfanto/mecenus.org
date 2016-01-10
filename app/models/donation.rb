@@ -46,18 +46,24 @@ class Donation < ActiveRecord::Base
     raise DonationError, "Plan couldn't be created" if self.plan.nil?
 
     customer = Stripe::Customer.retrieve(self.user.stripe_customer_id)
-    self.subscription = customer.subscriptions.create(plan: self.plan["id"])
+    
+    if project.processing_day > Time.now.utc.day
+      trial_end = Time.now.utc.change(day: project.processing_day).beginning_of_day
+    else
+      trial_end = (Time.now.utc + 1.month).change(day: project.processing_day).beginning_of_day
+    end
+    self.subscription = customer.subscriptions.create(plan: self.plan["id"], trial_end: trial_end.to_i)
     raise DonationError, "Subscription couldn't be created" if self.subscription.nil?
 
     self.stripe_plan_id = self.plan["id"]
     self.stripe_subscription_id = self.subscription["id"]
     self.save!
-  rescue Stripe::InvalidRequestError => e
+  rescue Stripe::InvalidRequestError => error
     if error.message == "No such customer: #{self.user.stripe_customer_id}"
       self.user.stripe_customer_id = nil
       self.user.save
     else
-      raise DonationError, "Subscription couldn't be started: #{e.message}"
+      raise DonationError, "Subscription couldn't be started: #{error.message}"
     end
   end
   after_commit :start_subscription, on: :create
@@ -74,7 +80,13 @@ class Donation < ActiveRecord::Base
 
     create_stripe_plan!
     raise DonationError, "Plan couldn't be created" if self.plan.nil?
-    self.subscription = customer.subscriptions.create(plan: self.plan["id"])
+
+    if project.processing_day > Time.now.utc.day
+      trial_end = Time.now.utc.change(day: project.processing_day).beginning_of_day
+    else
+      trial_end = (Time.now.utc + 1.month).change(day: project.processing_day).beginning_of_day
+    end
+    self.subscription = customer.subscriptions.create(plan: self.plan["id"], trial_end: trial_end.to_i)
     raise DonationError, "Subscription couldn't be created" if subscription.nil?
 
     self.stripe_plan_id = self.plan["id"]
