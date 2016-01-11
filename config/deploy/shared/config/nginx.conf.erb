@@ -11,7 +11,7 @@ server {
   listen 80;
   passenger_enabled on;
   passenger_root /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini;
-  passenger_ruby /home/deploy/.rbenv/shims/ruby;
+  passenger_ruby /home/<%= fetch(:deploy_user) %>/.rbenv/shims/ruby;
   root <%= fetch(:deploy_to) %>/current/public;
 
   location ^~ /assets/ {
@@ -32,7 +32,7 @@ server {
   listen 443;
   passenger_enabled on;
   passenger_root /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini;
-  passenger_ruby /home/deploy/.rbenv/shims/ruby;
+  passenger_ruby /home/<%= fetch(:deploy_user) %>/.rbenv/shims/ruby;
   root <%= fetch(:deploy_to) %>/current/public;
 
   location ^~ /assets/ {
