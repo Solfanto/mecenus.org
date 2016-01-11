@@ -48,12 +48,14 @@ class Donation < ActiveRecord::Base
 
     customer = Stripe::Customer.retrieve(self.user.stripe_customer_id)
 
-    if project.processing_day > Time.now.utc.day
-      trial_end = Time.now.utc.change(day: project.processing_day).beginning_of_day
+    if Rails.application.config.trial_end == 'now'
+      trial_end = 'now'
+    elsif project.processing_day > Time.now.utc.day
+      trial_end = Time.now.utc.change(day: project.processing_day).beginning_of_day.to_i
     else
-      trial_end = (Time.now.utc + 1.month).change(day: project.processing_day).beginning_of_day
+      trial_end = (Time.now.utc + 1.month).change(day: project.processing_day).beginning_of_day.to_i
     end
-    self.subscription = customer.subscriptions.create(plan: self.plan["id"], trial_end: trial_end.to_i)
+    self.subscription = customer.subscriptions.create(plan: self.plan["id"], trial_end: trial_end)
     raise DonationError, "Subscription couldn't be created" if self.subscription.nil?
 
     self.stripe_plan_id = self.plan["id"]
@@ -82,12 +84,14 @@ class Donation < ActiveRecord::Base
     create_stripe_plan!
     raise DonationError, "Plan couldn't be created" if self.plan.nil?
 
-    if project.processing_day > Time.now.utc.day
-      trial_end = Time.now.utc.change(day: project.processing_day).beginning_of_day
+    if Rails.application.config.trial_end == 'now'
+      trial_end = 'now'
+    elsif project.processing_day > Time.now.utc.day
+      trial_end = Time.now.utc.change(day: project.processing_day).beginning_of_day.to_i
     else
-      trial_end = (Time.now.utc + 1.month).change(day: project.processing_day).beginning_of_day
+      trial_end = (Time.now.utc + 1.month).change(day: project.processing_day).beginning_of_day.to_i
     end
-    self.subscription = customer.subscriptions.create(plan: self.plan["id"], trial_end: trial_end.to_i)
+    self.subscription = customer.subscriptions.create(plan: self.plan["id"], trial_end: trial_end)
     raise DonationError, "Subscription couldn't be created" if subscription.nil?
 
     self.stripe_plan_id = self.plan["id"]

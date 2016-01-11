@@ -9,7 +9,8 @@ set :secret_keys, [:secret_key_base, :smtp_server, :smtp_username, :smtp_passwor
   :stripe_secret_key, :stripe_publishable_key, 
   :paypal_client_id, :paypal_client_secret, :paypal_app_id,
   :paypal_username, :paypal_password, :paypal_signature, :paypal_email,
-  :default_admin_email, :default_admin_password
+  :default_admin_email, :default_admin_password,
+  :trial_end
 ]
 
 set :rbenv_type, :user

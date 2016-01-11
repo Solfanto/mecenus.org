@@ -26,5 +26,6 @@ module SiteMecenus
 
     config.stripe.secret_key = Rails.application.secrets.stripe_secret_key
     config.stripe.publishable_key = Rails.application.secrets.stripe_publishable_key
+    config.trial_end = ENV["TRIAL_END"]
   end
 end
