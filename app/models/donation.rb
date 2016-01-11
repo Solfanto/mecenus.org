@@ -30,7 +30,10 @@ class Donation < ActiveRecord::Base
       interval: self.recurrence_type == "yearly" ? "year" : "month",
       name: "Donation for #{self.project.title}",
       currency: self.currency.downcase,
-      id: "donation_for_#{self.project.name}_from_user_#{self.user_id}"
+      id: "donation_for_#{self.project.name}_from_user_#{self.user_id}",
+      metadata: {
+        user_id: self.user_id
+      }
     )
   rescue Stripe::InvalidRequestError => error
     if error.message == "Plan already exists."
@@ -55,7 +58,14 @@ class Donation < ActiveRecord::Base
     else
       trial_end = (Time.now.utc + 1.month).change(day: project.processing_day).beginning_of_day.to_i
     end
-    self.subscription = customer.subscriptions.create(plan: self.plan["id"], trial_end: trial_end)
+    self.subscription = customer.subscriptions.create(
+      plan: self.plan["id"], 
+      trial_end: trial_end, 
+      metadata: {
+        donation_id: self.id,
+        user_id: self.user_id
+      }
+    )
     raise DonationError, "Subscription couldn't be created" if self.subscription.nil?
 
     self.stripe_plan_id = self.plan["id"]
@@ -99,7 +109,14 @@ class Donation < ActiveRecord::Base
     else
       trial_end = (Time.now.utc + 1.month).change(day: project.processing_day).beginning_of_day.to_i
     end
-    self.subscription = customer.subscriptions.create(plan: self.plan["id"], trial_end: trial_end)
+    self.subscription = customer.subscriptions.create(
+      plan: self.plan["id"], 
+      trial_end: trial_end, 
+      metadata: {
+        donation_id: self.id,
+        user_id: self.user_id
+      }
+    )
     raise DonationError, "Subscription couldn't be created" if subscription.nil?
 
     self.stripe_plan_id = self.plan["id"]
