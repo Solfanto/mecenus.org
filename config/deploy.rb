@@ -20,6 +20,7 @@ set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 set :rbenv_roles, :all # default value
 
 set :passenger_restart_with_sudo, false
+set :passenger_restart_options, -> { "#{deploy_to}" }
 
 # Sidekiq
 # set :sidekiq_queue, ['mailers', 'default']
