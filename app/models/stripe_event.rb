@@ -2,13 +2,14 @@ class StripeEvent < ActiveRecord::Base
   include Stripe::Callbacks
 
   after_stripe_event do |target, event|
+    event_hash = event.to_hash
     StripeEvent.create(
-      event_id: event.fetch("id"),
-      event_type: event.fetch("type"),
-      object_type: event.fetch("data", {}).fetch("object", {}).fetch("object"), 
-      object_id: event.fetch("data", {}).fetch("object", {}).fetch("id"), 
-      object_description: event.fetch("data", {}).fetch("object", {}).fetch("description"), 
-      json: event.to_s
+      event_id: event_hash.fetch("id", nil),
+      event_type: event_hash.fetch("type", nil),
+      object_type: event_hash.fetch("data", {}).fetch("object", {}).fetch("object", nil), 
+      object_id: event_hash.fetch("data", {}).fetch("object", {}).fetch("id", nil), 
+      object_description: event_hash.fetch("data", {}).fetch("object", {}).fetch("description", nil), 
+      json: event.to_json
     )
   end
 end
