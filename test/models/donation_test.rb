@@ -3,19 +3,7 @@ require 'test_helper'
 class DonationTest < ActiveSupport::TestCase
   test "donation is made" do
     sponsor = users(:sponsor)
-    sponsor.add_payment_method(provider: :stripe, card: {
-      exp_month: "12",
-      exp_year: "24",
-      number: "4242424242424242",
-      cvc: "123",
-      name: "Mr Sponsor",
-      address_city: nil,
-      address_country: nil,
-      address_line1: nil,
-      address_line2: nil,
-      address_state: nil,
-      address_zip: nil
-    })
+    add_testing_payment_to_user(sponsor)
     assert !sponsor.stripe_customer_id.nil?, "User has no stripe customer id"
 
     project = projects(:mecenus_org)

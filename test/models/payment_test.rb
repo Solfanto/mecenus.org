@@ -7,12 +7,15 @@ class PaymentTest < ActiveSupport::TestCase
 
     amount = 7.0
     sponsor = users(:sponsor)
+    add_testing_payment_to_user(sponsor)
     sponsor.donate_to(project, amount)
     donation = sponsor.donations.find_by(project_id: project.id)
 
     other_amount = 9.0
     other_sponsor = users(:other_sponsor)
-    other_sponsor.donate_to(project, other_amount)
+    add_testing_payment_to_user(other_sponsor)
+    result = other_sponsor.donate_to(project, other_amount)
+    assert result, "Donation failed: #{other_sponsor.errors.full_messages.to_sentence}"
     other_donation = other_sponsor.donations.find_by(project_id: project.id)
 
     Payment.process_payment({
@@ -54,16 +57,20 @@ class PaymentTest < ActiveSupport::TestCase
 
     amount = 7.0
     sponsor = users(:sponsor)
-    sponsor.donate_to(project, amount)
+    add_testing_payment_to_user(sponsor)
+    result = sponsor.donate_to(project, amount)
+    assert result, "Donation failed: #{sponsor.errors.full_messages.to_sentence}"
     donation = sponsor.donations.find_by(project_id: project.id)
 
     other_amount = 9.0
     other_sponsor = users(:other_sponsor)
+    add_testing_payment_to_user(other_sponsor)
     other_sponsor.donate_to(project, other_amount)
     other_donation = other_sponsor.donations.find_by(project_id: project.id)
 
     failed_amount = 18.0
     failed_sponsor = users(:other_sponsor)
+    add_testing_payment_to_user(failed_sponsor)
     failed_sponsor.donate_to(project, failed_amount)
     failed_donation = failed_sponsor.donations.find_by(project_id: project.id)
 
