@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   has_many :projects, through: :project_memberships, class_name: 'Project'
   has_many :donations
   has_many :payments
+  has_many :transfers
 
   has_many :project_followships
   has_many :followed_projects, through: :project_followships, source: :project
@@ -43,6 +44,24 @@ class User < ActiveRecord::Base
 
   def follow?(project)
     self.followed_projects.include?(project)
+  end
+
+  def computed_balance
+    @computed_balance = self.donation_records.sum(:amount) - computed_transfered_amount
+    if @computed_balance != self.balance
+      self.balance = @computed_balance
+      self.save
+    end
+    @computed_balance
+  end
+
+  def computed_transfered_amount
+    @computed_transfered_amount = self.transfers.sum(:amount)
+    if @computed_transfered_amount != self.transfered_amount
+      self.transfered_amount = @computed_transfered_amount
+      self.save
+    end
+    @computed_transfered_amount
   end
 
   # DEVISE
