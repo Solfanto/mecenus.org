@@ -75,11 +75,19 @@ class Donation < ActiveRecord::Base
     return if self.user.stripe_customer_id.nil?
     return if self.previous_changes["amount"].nil?
 
-    customer = Stripe::Customer.retrieve(self.user.stripe_customer_id)
-    customer.subscriptions.retrieve(self.stripe_subscription_id)&.delete if self.stripe_subscription_id
+    begin
+      customer = Stripe::Customer.retrieve(self.user.stripe_customer_id)
+      customer.subscriptions.retrieve(self.stripe_subscription_id)&.delete if self.stripe_subscription_id
+    rescue Stripe::InvalidRequestError => error
+      self.stripe_subscription_id = nil
+    end
 
-    old_plan = Stripe::Plan.retrieve(self.stripe_plan_id) if self.stripe_plan_id
-    old_plan&.delete
+    begin
+      old_plan = Stripe::Plan.retrieve(self.stripe_plan_id) if self.stripe_plan_id
+      old_plan&.delete
+    rescue Stripe::InvalidRequestError => error
+      self.stripe_plan_id = nil
+    end
 
     create_stripe_plan!
     raise DonationError, "Plan couldn't be created" if self.plan.nil?
@@ -97,8 +105,8 @@ class Donation < ActiveRecord::Base
     self.stripe_plan_id = self.plan["id"]
     self.stripe_subscription_id = self.subscription["id"]
     self.save!
-  rescue Stripe::InvalidRequestError => e
-    raise DonationError, "Subscription couldn't be updated: #{e.message}"
+  rescue Stripe::InvalidRequestError => error
+    raise DonationError, "Subscription couldn't be updated: #{error.message}"
   end
   after_commit :update_supscription, on: :update
 
