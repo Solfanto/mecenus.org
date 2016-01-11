@@ -149,6 +149,12 @@ class User < ActiveRecord::Base
       self.stripe_customer_id = customer["id"]
       self.save
     end
+  rescue Stripe::InvalidRequestError => error
+    if error.message == "No such customer: #{self.stripe_customer_id}"
+      self.stripe_customer_id = nil
+      self.save
+      add_payment_method_with_stripe(card: card)
+    end
   end
 
   def add_payment_method_with_paypal(card:)
