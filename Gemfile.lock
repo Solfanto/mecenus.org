@@ -207,9 +207,6 @@ GEM
       nenv (~> 0.1)
       shellany (~> 0.0)
     orm_adapter (0.5.0)
-    passenger (5.0.23)
-      rack
-      rake (>= 0.8.1)
     paypal-sdk-rest (1.4.1)
       multi_json (~> 1.0)
       uuidtools (~> 2.1)
@@ -369,7 +366,6 @@ DEPENDENCIES
   memoist
   mini_magick
   minitest-reporters
-  passenger
   paypal-sdk-rest
   pg
   rails (~> 4.2.4)

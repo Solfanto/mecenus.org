@@ -53,7 +53,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'bcrypt', '~> 3.1.7'
 
 # Use Unicorn as the app server
-gem 'passenger'
+# gem 'unicorn'
 
 # Use Capistrano for deployment
 gem 'capistrano-3-rails-template', git: 'https://github.com/n-studio/capistrano-3-rails-template.git', branch: 'passenger', group: :development
