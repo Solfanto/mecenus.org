@@ -17,12 +17,20 @@ class Payment < ActiveRecord::Base
   # 1. check what is the related donation
   # 2. make a new payment
   # 3. add the amount to the related donation record
-  after_invoice_payment_succeeded do |invoice|
-    Payment.process_payment(invoice["data"]["object"]["lines"]["data"][0], invoice, :succeeded)
+  after_invoice_payment_succeeded! do |invoice, event|
+    invoice_hash = invoice.as_json
+    Payment.process_payment(invoice.fetch("data", {}).
+      fetch("object", {}).fetch("lines", {}).
+      fetch("data", []}.first, invoice, :succeeded
+    )
   end
 
-  after_invoice_payment_failed do |invoice|
-    Payment.process_payment(invoice["data"]["object"]["lines"]["data"][0], invoice, :failed)
+  after_invoice_payment_failed! do |invoice, event|
+    invoice_hash = invoice.as_json
+    Payment.process_payment(invoice.fetch("data", {}).
+      fetch("object", {}).fetch("lines", {}).
+      fetch("data", []}.first, invoice, :failed
+    )
   end
 
   def self.process_payment(subscription, invoice, state)
