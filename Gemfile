@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby "2.3.0"
+
 gem 'devise'
 gem 'kaminari'
 gem 'rails-timeago', '~> 2.0'
