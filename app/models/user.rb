@@ -90,6 +90,8 @@ class User < ActiveRecord::Base
     stripe_account = Stripe::Account.retrieve(self.stripe_account_id)
     existing_bank_accounts = stripe_account.external_accounts.all(object: "bank_account")
     existing_bank_accounts["data"].last
+  rescue Stripe::AuthenticationError => e
+    nil
   end
 
   def update_bank_information(country:, currency:, account_number:, routing_number: nil, account_holder_type: "individual", name: nil)
