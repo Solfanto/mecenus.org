@@ -19,12 +19,14 @@ class PaymentTest < ActiveSupport::TestCase
     other_donation = other_sponsor.donations.find_by(project_id: project.id)
 
     Payment.process_payment({
-      "customer" => sponsor.stripe_customer_id,
-      "amount" => 7,
+      "amount" => (amount * 100).to_i,
       "currency" => "usd",
       "metadata" => {
         "donation_id" => donation.id
       }
+    },
+    {
+      "customer" => sponsor.stripe_customer_id
     },
     {
       "created" => Time.now.to_i.to_s
@@ -32,12 +34,14 @@ class PaymentTest < ActiveSupport::TestCase
     :succeeded)
 
     Payment.process_payment({
-      "customer" => other_sponsor.stripe_customer_id,
-      "amount" => 9,
+      "amount" => (other_amount * 100).to_i,
       "currency" => "usd",
       "metadata" => {
         "donation_id" => other_donation.id
       }
+    },
+    {
+      "customer" => other_sponsor.stripe_customer_id
     },
     {
       "created" => Time.now.to_i.to_s
@@ -75,25 +79,14 @@ class PaymentTest < ActiveSupport::TestCase
     failed_donation = failed_sponsor.donations.find_by(project_id: project.id)
 
     Payment.process_payment({
-      "customer" => sponsor.stripe_customer_id,
-      "amount" => amount,
+      "amount" => (amount * 100).to_i,
       "currency" => "usd",
       "metadata" => {
         "donation_id" => donation.id
       }
     },
     {
-      "created" => Time.now.to_i.to_s
-    },
-    :succeeded)
-
-    Payment.process_payment({
-      "customer" => other_sponsor.stripe_customer_id,
-      "amount" => other_amount,
-      "currency" => "usd",
-      "metadata" => {
-        "donation_id" => other_donation.id
-      }
+      "customer" => sponsor.stripe_customer_id
     },
     {
       "created" => Time.now.to_i.to_s
@@ -101,12 +94,29 @@ class PaymentTest < ActiveSupport::TestCase
     :succeeded)
 
     Payment.process_payment({
-      "customer" => failed_sponsor.stripe_customer_id,
-      "amount" => failed_amount,
+      "amount" => (other_amount * 100).to_i,
+      "currency" => "usd",
+      "metadata" => {
+        "donation_id" => other_donation.id
+      }
+    },
+    {
+      "customer" => other_sponsor.stripe_customer_id
+    },
+    {
+      "created" => Time.now.to_i.to_s
+    },
+    :succeeded)
+
+    Payment.process_payment({
+      "amount" => (failed_amount * 100).to_i,
       "currency" => "usd",
       "metadata" => {
         "donation_id" => failed_donation.id
       }
+    },
+    {
+      "customer" => failed_sponsor.stripe_customer_id
     },
     {
       "created" => Time.now.to_i.to_s

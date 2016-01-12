@@ -19,15 +19,19 @@ class Payment < ActiveRecord::Base
   # 3. add the amount to the related donation record
   after_invoice_payment_succeeded! do |invoice, event|
     invoice_hash = invoice.as_json
+    event_hash = event.as_json
+    StripeEvent.record_event(invoice_hash, event_hash)
     Payment.process_payment(invoice_hash.fetch("lines", {}).
-      fetch("data", []).first, invoice_hash, event.as_json, :succeeded
+      fetch("data", []).first, invoice_hash, event_hash, :succeeded
     )
   end
 
   after_invoice_payment_failed! do |invoice, event|
     invoice_hash = invoice.as_json
+    event_hash = event.as_json
+    StripeEvent.record_event(invoice_hash, event_hash)
     Payment.process_payment(invoice_hash.fetch("lines", {}).
-      fetch("data", []).first, invoice_hash, event.as_json, :failed
+      fetch("data", []).first, invoice_hash, event_hash, :failed
     )
   end
 
@@ -35,6 +39,7 @@ class Payment < ActiveRecord::Base
     user = User.find_by(stripe_customer_id: invoice["customer"])
     donation = Donation.find(subscription["metadata"]["donation_id"])
     project = donation.project
+    amount = BigDecimal.new(subscription["amount"]) / (Currency::ZERO_DECIMAL_CURRENCIES.include?(subscription["currency"]) ? 1 : 100)
 
     record = DonationRecord.where(
       project_id: project.id, 
@@ -48,7 +53,7 @@ class Payment < ActiveRecord::Base
     end
     raise PaymentError, "Currency doesn't match" if subscription["currency"] != project.currency.downcase
     if state == :succeeded
-      record.amount += subscription["amount"]
+      record.amount += amount
     end
     record.save!
 
@@ -56,7 +61,7 @@ class Payment < ActiveRecord::Base
     payment.user_id = user.id
     payment.project_id = project.id
     payment.donation_id = donation.id
-    payment.amount = subscription["amount"]
+    payment.amount = amount
     payment.state = state.to_s
     payment.processed_at = DateTime.strptime(event["created"],'%s')
     payment.save!
