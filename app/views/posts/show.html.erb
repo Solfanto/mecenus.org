@@ -3,18 +3,18 @@
 </div>
 <div class="container">
   <div class="row">
-    <div class="col-sm-4 sidebar">
-      <%= render "projects/side_bar" %>
-      <!-- Top supporters -->
-    </div>
-
-    <div class="col-sm-8 main">
+    <div class="col-sm-8 col-sm-push-4 col-xs-12 main">
       <%= render "projects/navbar" %>
       <div class="panel panel-default">
         <div class="panel-body">
           <%= render "post_row", post: @post %>
         </div>
       </div>
+    </div>
+
+    <div class="col-sm-4 col-sm-pull-8 col-xs-12 sidebar">
+      <%= render "projects/side_bar" %>
+      <!-- Top supporters -->
     </div>
   </div>
 </div>

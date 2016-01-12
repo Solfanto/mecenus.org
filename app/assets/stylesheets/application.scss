@@ -71,6 +71,12 @@ a {
   }
 }
 
+.no-stacking {
+  li {
+    display:table-cell !important;
+  }
+}
+
 .bs-example {
   position: relative;
   padding: 45px 15px 15px;
