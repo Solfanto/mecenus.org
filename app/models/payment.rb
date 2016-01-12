@@ -17,21 +17,17 @@ class Payment < ActiveRecord::Base
   # 1. check what is the related donation
   # 2. make a new payment
   # 3. add the amount to the related donation record
-  after_charge_succeeded do |charge, event|
-    Payment.process_payment(charge, event, :succeeded)
+  after_invoice_payment_succeeded do |invoice|
+    Payment.process_payment(invoice["data"]["object"]["lines"]["data"][0], invoice, :succeeded)
   end
 
-  after_charge_failed do |charge, event|
-    Payment.process_payment(charge, event, :failed)
+  after_invoice_payment_failed do |invoice|
+    Payment.process_payment(invoice["data"]["object"]["lines"]["data"][0], invoice, :failed)
   end
 
-  after_charge_refunded do |charge, event|
-    Payment.process_payment(charge, event, :refunded)
-  end
-
-  def self.process_payment(charge, event, state)
-    user = User.find_by(stripe_customer_id: charge["customer"])
-    donation = Donation.find(charge["metadata"]["donation_id"])
+  def self.process_payment(subscription, invoice, state)
+    user = User.find_by(stripe_customer_id: invoice["customer"])
+    donation = Donation.find(subscription["metadata"]["donation_id"])
     project = donation.project
 
     record = DonationRecord.where(
@@ -44,9 +40,9 @@ class Payment < ActiveRecord::Base
       record.balance = project.user.balance
       record.expected_donations_count = project.donations.enabled.count
     end
-    raise PaymentError, "Currency doesn't match" if charge["currency"] != project.currency.downcase
+    raise PaymentError, "Currency doesn't match" if subscription["currency"] != project.currency.downcase
     if state == :succeeded
-      record.amount += charge["amount"]
+      record.amount += subscription["amount"]
     end
     record.save!
 
@@ -54,9 +50,9 @@ class Payment < ActiveRecord::Base
     payment.user_id = user.id
     payment.project_id = project.id
     payment.donation_id = donation.id
-    payment.amount = charge["amount"]
+    payment.amount = subscription["amount"]
     payment.state = state.to_s
-    payment.processed_at = DateTime.strptime(event["created"],'%s')
+    payment.processed_at = DateTime.strptime(invoice["created"],'%s')
     payment.save!
 
     record.payments << payment
