@@ -19,16 +19,14 @@ class Payment < ActiveRecord::Base
   # 3. add the amount to the related donation record
   after_invoice_payment_succeeded! do |invoice, event|
     invoice_hash = invoice.as_json
-    Payment.process_payment(invoice_hash.fetch("data", {}).
-      fetch("object", {}).fetch("lines", {}).
+    Payment.process_payment(invoice_hash.fetch("lines", {}).
       fetch("data", []).first, invoice_hash, :succeeded
     )
   end
 
   after_invoice_payment_failed! do |invoice, event|
     invoice_hash = invoice.as_json
-    Payment.process_payment(invoice_hash.fetch("data", {}).
-      fetch("object", {}).fetch("lines", {}).
+    Payment.process_payment(invoice_hash.fetch("lines", {}).
       fetch("data", []).first, invoice_hash, :failed
     )
   end
