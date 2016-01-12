@@ -3,6 +3,7 @@ class StripeEvent < ActiveRecord::Base
 
   after_stripe_event do |target, event|
     event_hash = event.as_json
+    StripeEvent.create(
       event_id: event_hash.fetch("id", nil),
       event_type: event_hash.fetch("type", nil),
       object_type: event_hash.fetch("data", {}).fetch("object", {}).fetch("object", nil), 
