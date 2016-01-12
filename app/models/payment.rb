@@ -20,18 +20,18 @@ class Payment < ActiveRecord::Base
   after_invoice_payment_succeeded! do |invoice, event|
     invoice_hash = invoice.as_json
     Payment.process_payment(invoice_hash.fetch("lines", {}).
-      fetch("data", []).first, invoice_hash, :succeeded
+      fetch("data", []).first, invoice_hash, event.as_json, :succeeded
     )
   end
 
   after_invoice_payment_failed! do |invoice, event|
     invoice_hash = invoice.as_json
     Payment.process_payment(invoice_hash.fetch("lines", {}).
-      fetch("data", []).first, invoice_hash, :failed
+      fetch("data", []).first, invoice_hash, event.as_json, :failed
     )
   end
 
-  def self.process_payment(subscription, invoice, state)
+  def self.process_payment(subscription, invoice, event, state)
     user = User.find_by(stripe_customer_id: invoice["customer"])
     donation = Donation.find(subscription["metadata"]["donation_id"])
     project = donation.project
@@ -58,7 +58,7 @@ class Payment < ActiveRecord::Base
     payment.donation_id = donation.id
     payment.amount = subscription["amount"]
     payment.state = state.to_s
-    payment.processed_at = DateTime.strptime(invoice["created"],'%s')
+    payment.processed_at = DateTime.strptime(event["created"],'%s')
     payment.save!
 
     record.payments << payment
