@@ -21,7 +21,7 @@ class Payment < ActiveRecord::Base
     invoice_hash = invoice.as_json
     Payment.process_payment(invoice.fetch("data", {}).
       fetch("object", {}).fetch("lines", {}).
-      fetch("data", []}.first, invoice, :succeeded
+      fetch("data", []).first, invoice, :succeeded
     )
   end
 
@@ -29,7 +29,7 @@ class Payment < ActiveRecord::Base
     invoice_hash = invoice.as_json
     Payment.process_payment(invoice.fetch("data", {}).
       fetch("object", {}).fetch("lines", {}).
-      fetch("data", []}.first, invoice, :failed
+      fetch("data", []).first, invoice, :failed
     )
   end
 
