@@ -54,6 +54,7 @@ class Payment < ActiveRecord::Base
     raise PaymentError, "Currency doesn't match" if subscription["currency"] != project.currency.downcase
     if state == :succeeded
       record.amount += amount
+      record.balance += amount
     end
     record.save!
 
