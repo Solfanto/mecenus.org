@@ -230,6 +230,8 @@ class User < ActiveRecord::Base
       self.errors.add("Current credit card", "is not valid.")
       return false
     end
+    self.follow(project)
+
     donation = self.donations.where(project_id: project.id).first
     donation ||= self.donations.build(project_id: project.id)
     donation.amount = amount
