@@ -20,7 +20,7 @@ class Payment < ActiveRecord::Base
   after_invoice_payment_succeeded! do |invoice, event|
     invoice_hash = invoice.as_json
     event_hash = event.as_json
-    StripeEvent.record_event(invoice_hash, event_hash)
+    StripeEvent.record_event(invoice, event)
     Payment.process_payment(invoice_hash.fetch("lines", {}).
       fetch("data", []).first, invoice_hash, event_hash, :succeeded
     )
@@ -29,7 +29,7 @@ class Payment < ActiveRecord::Base
   after_invoice_payment_failed! do |invoice, event|
     invoice_hash = invoice.as_json
     event_hash = event.as_json
-    StripeEvent.record_event(invoice_hash, event_hash)
+    StripeEvent.record_event(invoice, event)
     Payment.process_payment(invoice_hash.fetch("lines", {}).
       fetch("data", []).first, invoice_hash, event_hash, :failed
     )
