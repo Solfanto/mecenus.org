@@ -1,7 +1,8 @@
 <div class="container">
-  <p>Results for <%= params[:q] %></p>
+  <p>Results for: <%= params[:q] %></p>
   <% for project in @projects %>
   <%= render "welcome/project_row", project: project %>
-
   <% end %>
+
+  <%= paginate @projects, theme: 'twitter-bootstrap-3' %>
 </div>
