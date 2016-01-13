@@ -20,28 +20,28 @@ class Payment < ActiveRecord::Base
   after_invoice_payment_succeeded! do |invoice, event|
     invoice_hash = invoice.as_json
     event_hash = event.as_json
-    record = StripeEvent.record_event(invoice, event)
+    event = StripeEvent.record_event(invoice, event)
     begin
       Payment.process_payment(invoice_hash.fetch("lines", {}).
         fetch("data", []).first, invoice_hash, event_hash, :succeeded
       )
     rescue => e
-      record.error_message = e.message
-      record.save
+      event.error_message = e.message
+      event.save
     end
   end
 
   after_invoice_payment_failed! do |invoice, event|
     invoice_hash = invoice.as_json
     event_hash = event.as_json
-    record = StripeEvent.record_event(invoice, event)
+    event = StripeEvent.record_event(invoice, event)
     begin
       Payment.process_payment(invoice_hash.fetch("lines", {}).
         fetch("data", []).first, invoice_hash, event_hash, :failed
       )
     rescue => e
-      record.error_message = e.message
-      record.save
+      event.error_message = e.message
+      event.save
     end
   end
 
