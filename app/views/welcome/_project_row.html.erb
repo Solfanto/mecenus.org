@@ -1,7 +1,7 @@
 <div class="project-row">
   <h1>
     <%= link_to project.title, project_path(project.name) %> <span class="version"><%= project.latest_version %></span>
-    <% is_following = current_user && current_user.follow?(@project) %>
+    <% is_following = current_user && current_user.follow?(project) %>
     <%= link_to "Follow", unfollow_path(project.name), method: "POST", class: "btn btn-primary unfollow-button", remote: true, data: {id: project.id, type: "json"}, style: !is_following ? "display: none;" : nil %>
     <%= link_to "Follow", follow_path(project.name), method: "POST", class: "btn btn-default follow-button", remote: true, data: {id: project.id, type: "json"}, style: is_following ? "display: none;" : nil %>
   </h1>
