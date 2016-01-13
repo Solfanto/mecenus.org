@@ -8,5 +8,16 @@
       </div>
     </div>
   <% end %>
+
+  <% if @posts.count == 0 %>
+  <p>You are not following any project yet!</p>
+  <div class="latest_projects">
+    <h1>Latest projects</h1>
+    <% for project in @projects %>
+    <%= render "welcome/project_row", project: project %>
+
+    <% end %>
+  </div>
+  <% end %>
 </div>
 

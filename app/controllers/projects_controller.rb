@@ -148,13 +148,35 @@ class ProjectsController < ApplicationController
   def follow
     @project = Project.published.not_closed.find_by!(name: params[:project_name])
     current_user.follow(@project)
-    redirect_to :back
+
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.json {
+        render json: {
+          id: @project.id,
+          type: @project.class.name.downcase,
+          action: 'follow',
+          success: true
+        }
+      }
+    end
   end
 
   def unfollow
     @project = Project.find_by!(name: params[:project_name])
     current_user.unfollow(@project)
-    redirect_to :back
+    
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.json {
+        render json: {
+          id: @project.id,
+          type: @project.class.name.downcase,
+          action: 'unfollow',
+          success: true
+        }
+      }
+    end
   end
 
   def close

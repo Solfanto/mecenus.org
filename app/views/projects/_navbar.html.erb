@@ -14,11 +14,9 @@
       <li><%= render "application/twitter_button", href: project_url(@project.name) %></li>
       <li><%= render "application/google_plus_button", href: project_url(@project.name) %></li>
       <li>
-        <% if current_user && current_user.follow?(@project) %>
-        <%= link_to "Follow", unfollow_path(@project.name), method: "POST", class: "btn btn-primary unfollow-button" %>
-        <% else %>
-        <%= link_to "Follow", follow_path(@project.name), method: "POST", class: "btn btn-default follow-button" %>
-        <% end %>
+        <% is_following = current_user && current_user.follow?(@project) %>
+        <%= link_to "Follow", unfollow_path(@project.name), method: "POST", class: "btn btn-primary unfollow-button", remote: true, data: {id: @project.id, type: "json"}, style: !is_following ? "display: none;" : nil %>
+        <%= link_to "Follow", follow_path(@project.name), method: "POST", class: "btn btn-default follow-button", remote: true, data: {id: @project.id, type: "json"}, style: is_following ? "display: none;" : nil %>
       </li>
     </ul>
     <% end %>

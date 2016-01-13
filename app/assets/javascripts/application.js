@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.turbolinks
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap-sprockets
@@ -34,5 +35,18 @@ $( document ).ready(function() {
   }).on("ajax:error", function(e, xhr, status, error) {
     $("#stripe > .content input").removeAttr('disabled');
     alert($.parseJSON(xhr.responseText).error.message);
+  });
+
+  $('.follow-button, .unfollow-button').on('ajax:success', function(e, data, status, xhr) {
+    id = $(this).data('id');
+
+    if (data.success && data.action == 'follow') {
+      $(".follow-button[data-id=" + id + "]").hide();
+      $(".unfollow-button[data-id=" + id + "]").show();
+    }
+    else if (data.success && data.action == 'unfollow') {
+      $(".unfollow-button[data-id=" + id + "]").hide();
+      $(".follow-button[data-id=" + id + "]").show();
+    }
   });
 });
