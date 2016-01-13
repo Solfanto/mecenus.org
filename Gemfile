@@ -4,6 +4,7 @@ ruby "2.3.0"
 
 gem 'devise'
 gem 'kaminari'
+gem 'bootstrap-kaminari-views'
 gem 'rails-timeago', '~> 2.0'
 gem 'carrierwave'
 gem 'mini_magick'

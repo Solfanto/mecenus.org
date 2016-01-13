@@ -3,9 +3,27 @@ class DonationsController < ApplicationController
 
   def index
     @donations = current_user.donations
-    @incoming_payments = current_user.payments.where("processed_at > NOW()")
+    @incoming_payments = []
+    @donations.each do |donation|
+      next unless donation.enabled
+      last_payment = donation.payments.order("processed_at DESC").first
+      if last_payment&.processed_at&.year == Time.now.year && last_payment&.processed_at&.month == Time.now.month 
+        next_payment_time = Time.now.change(day: donation.processing_day).next_month
+      elsif Time.now.change(day: donation.processing_day) < Time.now
+        next_payment_time = Time.now.change(day: donation.processing_day).next_month
+      else
+        next_payment_time = Time.now.change(day: donation.processing_day)
+      end
+      @incoming_payments << Payment.new(
+        project_id: donation.project_id, 
+        donation_id: donation.id, 
+        amount: donation.amount, 
+        currency: donation.currency, 
+        processed_at: next_payment_time
+      )
+    end
 
-    @processed_payments = current_user.payments.where("processed_at <= NOW()")
+    @processed_payments = current_user.payments.where("processed_at <= NOW()").order("created_at DESC").page(params[:page])
   end
 
   def new

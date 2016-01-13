@@ -1,5 +1,9 @@
 <div class="container">
+  <% if @donations.count == 0 %>
+  <h1>You are not supporting any project yet.</h1>
+  <% else %>
   <h1>You are supporting <%= @donations.count %> projects!</h1>
+  <% end %>
   <ul>
     <% @donations.each do |donation| %>
       <% if donation.enabled? %>
@@ -10,6 +14,7 @@
     <% end %>
   </ul>
 
+  <% if params[:page].to_i <= 1 %>
   <h1>Incoming donations</h1>
   <table class="table incoming-donations">
     <tr>
@@ -25,6 +30,7 @@
     </tr>
     <% end %>
   </table>
+  <% end %>
 
   <h1>Processed donations</h1>
   <table class="table donations">
@@ -41,4 +47,6 @@
     </tr>
     <% end %>
   </table>
+
+  <%= paginate @processed_payments, theme: 'twitter-bootstrap-3' %>
 </div>
