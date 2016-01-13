@@ -6,16 +6,19 @@ namespace :deploy do
     tests.each do |test|
       if test == 'all'
         cmd = "rake test"
+      elsif test =~ /\.rb$/
+        cmd = "rake test test/#{test}"
       else
         cmd = "rake test:#{test}"
       end
+      start_time = Time.now
       puts "--> Running tests: '#{test}', please wait ..."
-      unless system "bundle exec #{test} > #{test_log} 2>&1"
+      unless system "bundle exec #{cmd} > #{test_log} 2>&1"
         puts "--> Tests: '#{test}' failed. Results in: #{test_log} and below:"
         system "cat #{test_log}"
         exit;
       end
-      puts "--> '#{test}' passed"
+      puts "--> '#{test}' passed in #{Time.now - start_time} seconds."
     end
     puts "--> All tests passed"
     system "rm #{test_log}"
