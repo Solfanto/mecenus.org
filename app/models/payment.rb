@@ -29,10 +29,15 @@ class Payment < ActiveRecord::Base
   after_invoice_payment_failed! do |invoice, event|
     invoice_hash = invoice.as_json
     event_hash = event.as_json
-    StripeEvent.record_event(invoice, event)
-    Payment.process_payment(invoice_hash.fetch("lines", {}).
-      fetch("data", []).first, invoice_hash, event_hash, :failed
-    )
+    record = StripeEvent.record_event(invoice, event)
+    begin
+      Payment.process_payment(invoice_hash.fetch("lines", {}).
+        fetch("data", []).first, invoice_hash, event_hash, :failed
+      )
+    rescue => e
+      record.error_message = e.message
+      record.save
+    end
   end
 
   def self.process_payment(subscription, invoice, event, state)
@@ -64,7 +69,7 @@ class Payment < ActiveRecord::Base
     payment.donation_id = donation.id
     payment.amount = amount
     payment.state = state.to_s
-    payment.processed_at = DateTime.strptime(event["created"],'%s')
+    payment.processed_at = DateTime.strptime(event["created"].to_s, '%s')
     payment.save!
 
     record.payments << payment
