@@ -19,9 +19,6 @@ set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rben
 set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 set :rbenv_roles, :all # default value
 
-set :passenger_restart_with_sudo, true
-set :passenger_restart_options, -> { "#{deploy_to}" }
-
 # Sidekiq
 # set :sidekiq_queue, ['mailers', 'default']
 

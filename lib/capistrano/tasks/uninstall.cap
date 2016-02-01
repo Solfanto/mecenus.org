@@ -7,7 +7,7 @@ namespace :undeploy do
       
       if fetch(:confirmation) == "yes"
         # stop passenger
-        invoke "deploy:stop"
+        # invoke "deploy:stop"
         
         # delete symlinks
         symlinks = fetch(:symlinks)
