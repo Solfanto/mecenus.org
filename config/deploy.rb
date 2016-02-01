@@ -44,7 +44,7 @@ set :scm, :git
 # set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, %w{config/database.yml .rbenv-vars}
+set :linked_files, %w{config/database.yml .rbenv-vars config/sidekiq.yml}
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads}
@@ -66,6 +66,7 @@ set(:config_files, %w(
   nginx.conf
   database.yml
   log_rotation
+  sidekiq.yml
 ))
 
 # which config files should be made executable after copying
