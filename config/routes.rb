@@ -62,4 +62,6 @@ Rails.application.routes.draw do
   get 'search', to: 'search#index', as: 'search'
 
   get ':name', to: 'projects#show', as: 'project', constraints: { name: /[^\/]+/ }
+
+  get '/.well-known/acme-challenge/:id' => 'pages#letsencrypt'
 end
