@@ -1,5 +1,9 @@
 class StaticController < ApplicationController
   def letsencrypt
-    render text: ENV["LETSENCRYPT_ACME_CHALLENGE"]
+    if params[:id] == ENV["LETSENCRYPT_ACME_CHALLENGE"]
+      render text: params[:id]
+    else
+      render text: nil
+    end
   end
 end
