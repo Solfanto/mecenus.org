@@ -63,5 +63,5 @@ Rails.application.routes.draw do
 
   get ':name', to: 'projects#show', as: 'project', constraints: { name: /[^\/]+/ }
 
-  get '/.well-known/acme-challenge/:id' => 'pages#letsencrypt'
+  get '/.well-known/acme-challenge/:id' => 'static#letsencrypt'
 end
