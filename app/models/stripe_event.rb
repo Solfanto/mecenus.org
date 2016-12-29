@@ -1,4 +1,4 @@
-class StripeEvent < ActiveRecord::Base
+class StripeEvent < ApplicationRecord
   include Stripe::Callbacks
 
   after_stripe_event do |target, event|

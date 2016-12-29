@@ -1,7 +1,7 @@
 # These are the payments done by the sponsors
 class PaymentError < StandardError; end
 
-class Payment < ActiveRecord::Base
+class Payment < ApplicationRecord
   include Stripe::Callbacks
   attr_accessor :will_be_processed_at
 

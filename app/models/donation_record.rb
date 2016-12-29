@@ -1,7 +1,7 @@
 # These are the records of donations as received by the maintainer
 # They are aggregations of payments
 
-class DonationRecord < ActiveRecord::Base
+class DonationRecord < ApplicationRecord
   belongs_to :user # the receiver
   belongs_to :project
 

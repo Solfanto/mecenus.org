@@ -2,7 +2,7 @@
 # Its recurrence type can be monthly/yearly/per_major_release/per_minor_release
 class DonationError < StandardError; end
 
-class Donation < ActiveRecord::Base
+class Donation < ApplicationRecord
   attr_accessor :plan, :subscription
 
   belongs_to :user

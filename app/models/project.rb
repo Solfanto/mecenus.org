@@ -1,4 +1,4 @@
-class Project < ActiveRecord::Base
+class Project < ApplicationRecord
   PROTECTED_NAMES = %w(
     project projects user users profile 
     home create welcome help message messages 
